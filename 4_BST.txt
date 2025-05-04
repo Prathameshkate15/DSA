@@ -1,0 +1,281 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct node {
+    char k[20];
+    char m[20];
+    node *left, *right;
+};
+
+class dict {
+public:
+    node *root;
+
+    dict() {
+        root = NULL;
+    }
+
+    void create();
+    void disp(node *);
+    void insert(node *, node *);
+    int search(node *, char[]);
+    int update(node *, char[]);
+    node* del(node *, char[]);
+    node* min(node *);
+};
+
+void dict::create() {
+    node *temp;
+    int ch;
+    do {
+        temp = new node;
+        cout << "\nEnter Keyword: ";
+        cin >> temp->k;
+        cout << "Enter Meaning: ";
+        cin >> temp->m;
+        temp->left = temp->right = NULL;
+
+        if (root == NULL)
+            root = temp;
+        else
+            insert(root, temp);
+
+        cout << "Do you want to add more (y=1/n=0): ";
+        cin >> ch;
+    } while (ch == 1);
+}
+
+void dict::insert(node *root, node *temp) {
+    if (strcmp(temp->k, root->k) < 0) {
+        if (root->left == NULL)
+            root->left = temp;
+        else
+            insert(root->left, temp);
+    } else {
+        if (root->right == NULL)
+            root->right = temp;
+        else
+            insert(root->right, temp);
+    }
+}
+
+void dict::disp(node *root) {
+    if (root != NULL) {
+        disp(root->left);
+        cout << "Keyword: " << root->k << " | Meaning: " << root->m << endl;
+        disp(root->right);
+    }
+}
+
+int dict::search(node *root, char k[20]) {
+    int c = 0;
+    while (root != NULL) {
+        c++;
+        if (strcmp(k, root->k) == 0) {
+            cout << "Number of Comparisons: " << c << endl;
+            return 1;
+        }
+        if (strcmp(k, root->k) < 0)
+            root = root->left;
+        else
+            root = root->right;
+    }
+    return -1;
+}
+
+int dict::update(node *root, char k[20]) {
+    while (root != NULL) {
+        if (strcmp(k, root->k) == 0) {
+            cout << "Enter New Meaning of " << root->k << ": ";
+            cin >> root->m;
+            return 1;
+        }
+        if (strcmp(k, root->k) < 0)
+            root = root->left;
+        else
+            root = root->right;
+    }
+    return -1;
+}
+
+node* dict::del(node *root, char k[20]) {
+    if (root == NULL) {
+        cout << "Element Not Found" << endl;
+        return root;
+    }
+
+    if (strcmp(k, root->k) < 0) {
+        root->left = del(root->left, k);
+        return root;
+    }
+
+    if (strcmp(k, root->k) > 0) {
+        root->right = del(root->right, k);
+        return root;
+    }
+
+    // Node to be deleted found
+    if (root->left == NULL) {
+        node *temp = root->right;
+        delete root;
+        return temp;
+    }
+    if (root->right == NULL) {
+        node *temp = root->left;
+        delete root;
+        return temp;
+    }
+
+    node *temp = min(root->right);
+    strcpy(root->k, temp->k);
+    strcpy(root->m, temp->m);
+    root->right = del(root->right, temp->k);
+
+    return root;
+}
+
+node* dict::min(node *q) {
+    while (q->left != NULL)
+        q = q->left;
+    return q;
+}
+
+int main() {
+    int ch;
+    dict d;
+
+    do {
+        cout << "\nMenu\n1. Create\n2. Display\n3. Search\n4. Update\n5. Delete\nEnter Your Choice: ";
+        cin >> ch;
+
+        switch (ch) {
+        case 1:
+            d.create();
+            break;
+
+        case 2:
+            if (d.root == NULL)
+                cout << "No Keywords in Dictionary\n";
+            else
+                d.disp(d.root);
+            break;
+
+        case 3:
+            if (d.root == NULL)
+                cout << "Dictionary is Empty. Add keywords first!\n";
+            else {
+                char k[20];
+                cout << "Enter Keyword to Search: ";
+                cin >> k;
+                if (d.search(d.root, k) == 1)
+                    cout << "Keyword Found\n";
+                else
+                    cout << "Keyword Not Found\n";
+            }
+            break;
+
+        case 4:
+            if (d.root == NULL)
+                cout << "Dictionary is Empty. Add keywords first!\n";
+            else {
+                char k[20];
+                cout << "Enter Keyword to Update Meaning: ";
+                cin >> k;
+                if (d.update(d.root, k) == 1)
+                    cout << "Meaning Updated\n";
+                else
+                    cout << "Keyword Not Found\n";
+            }
+            break;
+
+        case 5:
+            if (d.root == NULL)
+                cout << "Dictionary is Empty. Add keywords first!\n";
+            else {
+                char k[20];
+                cout << "Enter Keyword to Delete: ";
+                cin >> k;
+                d.root = d.del(d.root, k);
+                cout << "Keyword Deleted\n";
+            }
+            break;
+
+        default:
+            cout << "Invalid Choice!\n";
+        }
+
+    } while (ch >= 1 && ch <= 5);
+
+    return 0;
+}
+
+/*
+
+Menu
+1. Create
+2. Display
+3. Search
+4. Update
+5. Delete
+Enter Your Choice: 1
+
+Enter Keyword: cat
+Enter Meaning: animal
+Do you want to add more (y=1/n=0): 1
+
+Enter Keyword: apple
+Enter Meaning: fruit
+Do you want to add more (y=1/n=0): 0
+
+Menu
+1. Create
+2. Display
+3. Search
+4. Update
+5. Delete
+Enter Your Choice: 2
+Keyword: apple | Meaning: fruit
+Keyword: cat | Meaning: animal
+
+Menu
+1. Create
+2. Display
+3. Search
+4. Update
+5. Delete
+Enter Your Choice: 4
+Enter Keyword to Update Meaning: fruit
+Keyword Not Found
+
+Menu
+1. Create
+2. Display
+3. Search
+4. Update
+5. Delete
+Enter Your Choice: 4
+Enter Keyword to Update Meaning: cat
+Enter New Meaning of cat: mamals
+Meaning Updated
+
+Menu
+1. Create
+2. Display
+3. Search
+4. Update
+5. Delete
+Enter Your Choice: 3
+Enter Keyword to Search: apple
+Number of Comparisons: 2
+Keyword Found
+
+Menu
+1. Create
+2. Display
+3. Search
+4. Update
+5. Delete
+Enter Your Choice: 
+
+*/

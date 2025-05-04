@@ -1,0 +1,38 @@
+
+Problem Statement:
+To implement operations on a Binary Search Tree (BST) including insertion, deletion, updating, and traversals (inorder, preorder, postorder).
+
+Objectives:
+1. To understand how binary search trees store data.
+2. To implement basic operations on BST using appropriate data structures.
+
+Outcomes:
+1. Students will be able to construct a BST and perform search, insert, delete operations.
+2. Students will be able to implement various tree traversal techniques.
+
+Software Requirements:
+1. Python Programming Environment
+2. IDE/Text Editor like VS Code
+3. 64-bit Operating System
+
+Theory:
+A Binary Search Tree (BST) is a binary tree where each node has a key and the key in the left child is less than the parent, while the key in the right child is greater. BST enables fast lookup, addition, and removal of items.
+
+Key Operations:
+- Insertion: Adds a node at the correct position based on the key.
+- Deletion: Removes a node while maintaining BST properties. Three cases:
+  a) Node with no child
+  b) Node with one child
+  c) Node with two children: Replace with inorder successor
+- Traversals:
+  a) Inorder (Left, Root, Right)
+  b) Preorder (Root, Left, Right)
+  c) Postorder (Left, Right, Root)
+
+Algorithm for Inorder Traversal:
+1. Traverse left subtree
+2. Visit root
+3. Traverse right subtree
+
+Conclusion:
+Binary Search Tree is a hierarchical data structure used for quick insertion, deletion, and searching. By understanding BST operations and traversals, students gain insight into non-linear data structures.

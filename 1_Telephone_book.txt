@@ -1,0 +1,70 @@
+def hash_v(num, hashtable):
+    size = len(hashtable)
+    index = num % size
+    while hashtable[index] != 0:
+        index = (index + 1) % size 
+    hashtable[index] = num
+
+def quadratic_v(num, hashtable1):
+    size = len(hashtable1)
+    index1 = num % size
+    if hashtable1[index1] == 0:
+        hashtable1[index1] = num
+    else:
+        for k in range(1, size):
+            t = (index1 + k * k) % size
+            if hashtable1[t] == 0:
+                hashtable1[t] = num
+                break
+
+def find(num, hashtable):
+    size = len(hashtable)
+    index2 = num % size
+    if hashtable[index2] == num:
+        print("Found", num)
+        return
+    start = index2
+    while hashtable[index2] != 0:
+        if hashtable[index2] == num:
+            print("Found", num)
+            return
+        index2 = (index2 + 1) % size
+        if index2 == start:
+            break
+    print("Not found", num)
+
+def main():
+    hashtable = []
+    hashtable1 = []
+    while True:
+        print("\n1. Linear probing")
+        print("2. Quadratic probing")
+        print("3. Find element")
+        print("4. Exit")
+        
+        cd = int(input("\nEnter choice: "))
+        
+        if cd == 1:
+            size = int(input("Enter total elements: "))
+            hashtable = [0] * (size + 3)  # Make table slightly larger for probing
+            for j in range(size):
+                h = int(input("Enter phone number: "))
+                hash_v(h, hashtable)
+            print("Hashtable using linear probing is:", hashtable)
+        elif cd == 2:
+            size = int(input("Enter total elements: "))
+            hashtable1 = [0] * (size + 3)  # Slightly larger for quadratic probing
+            for j in range(size):
+                q = int(input("Enter phone number: "))
+                quadratic_v(q, hashtable1)
+            print("Hashtable using quadratic probing is:", hashtable1)
+        elif cd == 3:
+            n = int(input("Enter number to be found: "))
+            find(n, hashtable)
+        elif cd == 4:
+            print("End of Program")
+            break
+        else:
+            print("Enter a valid choice")
+
+main()

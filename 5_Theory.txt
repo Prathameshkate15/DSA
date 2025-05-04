@@ -1,0 +1,37 @@
+
+Problem Statement:
+To understand and implement threaded binary search trees, including inorder threading and traversal without recursion or stack.
+
+Objectives:
+1. To understand the structure and advantages of threaded binary trees.
+2. To implement inorder traversal using threads.
+
+Outcomes:
+1. Students will be able to represent binary trees with threads.
+2. Students will be able to perform inorder traversal without using a stack or recursion.
+
+Software Requirements:
+1. Python Programming Environment
+2. IDE/Text Editor like VS Code
+3. 64-bit Operating System
+
+Theory:
+In a normal binary tree, many pointers are NULL. Threaded binary trees use these NULL pointers to point to inorder predecessor or successor. This allows traversal without recursion or a stack.
+
+Types:
+- Single Threaded: Each node is threaded towards either left or right (but not both).
+- Double Threaded: Each node is threaded towards both left and right.
+
+Advantages:
+- Saves space by reusing NULL pointers.
+- Faster inorder traversal.
+- Efficient memory usage.
+
+Algorithm for Inorder Traversal (Threaded BST):
+1. Start from the leftmost node.
+2. While the current node is not NULL:
+   a) Print data.
+   b) Move to inorder successor.
+
+Conclusion:
+Threaded binary trees provide an efficient way to traverse binary trees without additional memory. Understanding and implementing threaded trees strengthens the understanding of advanced tree structures.

@@ -1,0 +1,93 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Flight {
+    int am[10][10] = {0};
+    char city_index[10][10];
+    int city_count = 0;
+
+public:
+    Flight() { for (int i = 0; i < 10; i++) strcpy(city_index[i], "xx"); }
+    void create();
+    void display();
+};
+
+void Flight::create() {
+    char s[10], d[10], c;
+    int si, di, wt;
+    do {
+        cout << "\nEnter Source City: "; cin >> s;
+        cout << "Enter Destination City: "; cin >> d;
+        
+        si = di = -1;
+        for (int i = 0; i < city_count; i++) {
+            if (strcmp(city_index[i], s) == 0) si = i;
+            if (strcmp(city_index[i], d) == 0) di = i;
+        }
+        if (si == -1) strcpy(city_index[si = city_count++], s);
+        if (di == -1) strcpy(city_index[di = city_count++], d);
+        
+        cout << "Enter Distance: "; cin >> wt;
+        am[si][di] = wt;
+        
+        cout << "Add more cities? (y/n): "; cin >> c;
+    } while (c == 'y' || c == 'Y');
+}
+
+void Flight::display() {
+    cout << "\nAdjacency Matrix:\n";
+    for (int i = 0; i < city_count; i++) cout << "\t" << city_index[i];
+    cout << "\n";
+    for (int i = 0; i < city_count; i++) {
+        cout << city_index[i];
+        for (int j = 0; j < city_count; j++) cout << "\t" << am[i][j];
+        cout << "\n";
+    }
+}
+int main() {
+    Flight f;
+    int choice;
+    do {
+        cout << "\n1. Create\n2. Display Matrix\n3. Exit\nEnter choice: ";
+        cin >> choice;
+        if (choice == 1) f.create();
+        else if (choice == 2) f.display();
+    } while (choice != 3);
+    return 0;
+}
+/*
+************OUTPUT**************
+1. Create
+2. Display Matrix
+3. Exit
+Enter choice:
+1. Create
+Enter Source City: **Delhi**  
+Enter Destination City: **Mumbai**  
+Enter Distance: **1200**  
+Add more cities? (y/n): **y**  
+Enter Source City: **Delhi**  
+Enter Destination City: **Bangalore**  
+Enter Distance: **2100**  
+Add more cities? (y/n): **y**  
+Enter Source City: **Mumbai**  
+Enter Destination City: **Bangalore**  
+Enter Distance: **980**  
+Add more cities? (y/n): **n**  
+1. Create
+2. Display Matrix
+3. Exit
+Enter choice: 2
+Adjacency Matrix:
+         Delhi   Mumbai   Bangalore
+Delhi       0     1200      2100
+Mumbai      0        0       980
+Bangalore   0        0         0
+1. Create
+2. Display Matrix
+3. Exit
+Enter choice: 3  === Code Execution Successful ===
+
+*/
+

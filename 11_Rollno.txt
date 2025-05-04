@@ -1,0 +1,259 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+struct Student {
+    int roll;
+    string name;
+    string division;
+    string address;
+};
+
+int stringToInt(string str) {
+    stringstream ss(str);
+    int num;
+    ss >> num;
+    return num;
+}
+
+void addStudent() {
+    Student s;
+    ofstream file("student.txt", ios::app);
+
+    cout << "\nEnter Roll No: ";
+    cin >> s.roll;
+    cin.ignore(); // flush newline character from buffer
+
+    cout << "Enter Name: ";
+    getline(cin, s.name);
+
+    cout << "Enter Division: ";
+    getline(cin, s.division);
+
+    cout << "Enter Address: ";
+    getline(cin, s.address);
+
+    file << s.roll << "," << s.name << "," << s.division << "," << s.address << "\n";
+    file.close();
+
+    cout << "Student added successfully.\n";
+}
+
+void deleteStudent() {
+    int roll;
+    cout << "\nEnter Roll No to delete: ";
+    cin >> roll;
+
+    ifstream fin("student.txt");
+    ofstream temp("temp.txt");
+    bool found = false;
+    string line;
+
+    while (getline(fin, line)) {
+        stringstream ss(line);
+        string rollStr;
+        getline(ss, rollStr, ',');
+        int currentRoll = stringToInt(rollStr);
+
+        if (currentRoll != roll) {
+            temp << line << endl;
+        } else {
+            found = true;
+        }
+    }
+
+    fin.close();
+    temp.close();
+    remove("student.txt");
+    rename("temp.txt", "student.txt");
+
+    if (found)
+        cout << "Student record deleted successfully.\n";
+    else
+        cout << "Record not found.\n";
+}
+
+void searchStudent() {
+    int roll;
+    cout << "\nEnter Roll No to search: ";
+    cin >> roll;
+
+    ifstream fin("student.txt");
+    bool found = false;
+    string line;
+
+    while (getline(fin, line)) {
+        stringstream ss(line);
+        string rollStr, name, division, address;
+        getline(ss, rollStr, ',');
+        getline(ss, name, ',');
+        getline(ss, division, ',');
+        getline(ss, address, '\n');
+
+        int currentRoll = stringToInt(rollStr);
+        if (currentRoll == roll) {
+            cout << "\nStudent Details:\n";
+            cout << "Roll No: " << rollStr << endl;
+            cout << "Name: " << name << endl;
+            cout << "Division: " << division << endl;
+            cout << "Address: " << address << endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Student record not found.\n";
+    }
+
+    fin.close();
+}
+
+void displayAllStudents() {
+    ifstream fin("student.txt");
+    string line;
+    int count = 0;
+
+    cout << "\n==== All Student Records ====\n";
+    while (getline(fin, line)) {
+        stringstream ss(line);
+        string rollStr, name, division, address;
+        getline(ss, rollStr, ',');
+        getline(ss, name, ',');
+        getline(ss, division, ',');
+        getline(ss, address, '\n');
+
+        cout << "\nRecord #" << ++count << ":\n";
+        cout << "Roll No: " << rollStr << endl;
+        cout << "Name: " << name << endl;
+        cout << "Division: " << division << endl;
+        cout << "Address: " << address << endl;
+    }
+
+    if (count == 0) {
+        cout << "No records found.\n";
+    }
+
+    fin.close();
+}
+
+int main() {
+    int choice;
+    do {
+        cout << "\n====== Student Management System ======\n";
+        cout << "1. Add Student\n";
+        cout << "2. Delete Student\n";
+        cout << "3. Search Student\n";
+        cout << "4. Display All Students\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: addStudent(); break;
+            case 2: deleteStudent(); break;
+            case 3: searchStudent(); break;
+            case 4: displayAllStudents(); break;
+            case 5: cout << "Exiting...\n"; break;
+            default: cout << "Invalid choice.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
+
+
+/*
+
+OUTPUT:
+
+====== Student Management System ======
+1.	Add Student
+2.	Delete Student
+3.	Search Student
+4.	Display All Students
+5.	Exit
+Enter choice: 1
+
+Enter Roll No: 101 Enter Name: Mahir Enter Division: A Enter Address: Pune
+Student added successfully.
+
+====== Student Management System ======
+1.	Add Student
+2.	Delete Student
+3.	Search Student
+4.	Display All Students
+5.	Exit
+Enter choice: 1
+
+Enter Roll No: 102 Enter Name: Dheeraj Enter Division: A Enter Address: Pune
+Student added successfully.
+
+====== Student Management System ======
+1.	Add Student
+2.	Delete Student
+3.	Search Student
+4.	Display All Students
+5.	Exit
+Enter choice: 1
+
+Enter Roll No: 103 Enter Name: Meera Enter Division: A Enter Address: Pune
+ 
+Student added successfully.
+
+====== Student Management System ======
+1.	Add Student
+2.	Delete Student
+3.	Search Student
+4.	Display All Students
+5.	Exit
+Enter choice: 4
+==== All Student Records ==== Record #1:
+Roll No: 101
+Name: Mahir Division: A Address: Pune
+
+Record #2:
+Roll No: 102 Name: Dheeraj Division: A Address: Pune
+
+Record #3:
+Roll No: 103 Name: Meera Division: A Address: Pune
+
+====== Student Management System ======
+1.	Add Student
+2.	Delete Student
+3.	Search Student
+4.	Display All Students
+5.	Exit
+Enter choice: 3
+Enter Roll No to search: 102 Student Details:
+Roll No: 102
+ 
+Name: Dheeraj Division: A Address: Pune
+
+====== Student Management System ======
+1.	Add Student
+2.	Delete Student
+3.	Search Student
+4.	Display All Students
+5.	Exit
+Enter choice: 2
+
+Enter Roll No to delete: 103
+Student record deleted successfully.
+
+====== Student Management System ======
+1.	Add Student
+2.	Delete Student
+3.	Search Student
+4.	Display All Students
+5.	Exit
+Enter choice: 4
+==== All Student Records ==== Record #1:
+Roll No: 101 Name: Mahir Division: A Address: Pune
+
+Record #2:
+Roll No: 102 Name: Dheeraj Division: A Address: Pune
+
+*/

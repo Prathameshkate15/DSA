@@ -1,0 +1,53 @@
+
+Problem Statement:
+Implement the functionality of a dictionary (ADT) using hashing and handle collisions using chaining without replacement. Data is a set of key-value pairs, where keys must be comparable and unique.
+
+Objectives:
+1. To understand and implement the concept of dictionary ADT.
+2. To apply hashing and handle collisions using chaining technique.
+
+Outcomes:
+1. Students will be able to implement dictionary ADT using hashing.
+2. Students will perform standard operations like insert, search, and delete using chaining.
+
+Software Requirements:
+1. 64-bit OS
+2. Python Programming Environment
+3. Open-source editor or IDE (e.g., VS Code)
+
+Theory:
+A dictionary (or associative array) is a data structure that stores key-value pairs. Efficient implementation of dictionaries can be achieved using hash tables.
+
+Hashing:
+Hashing involves mapping keys to a fixed index in a hash table using a hash function, which produces a hash code (index). Good hash functions allow near-constant time performance for insertions, deletions, and lookups.
+
+Collision Resolution – Chaining:
+Collisions occur when multiple keys hash to the same index. Chaining handles collisions by maintaining a linked list of all elements that hash to the same index.
+
+Each bucket (index) of the hash table points to the head of a linked list containing all the entries that hash to the same index.
+
+Chaining Operations:
+- Insert(key, value): Compute index using hash function, and insert the key-value pair at the beginning of the list at that index.
+- Search(key): Compute hash index and search the linked list at that position.
+- Delete(key): Locate and remove the node from the linked list at the computed index.
+
+Pseudo Code for Insertion (Chaining):
+function insert(key, value):
+    index = hashFunction(key)
+    if hashTable[index] is None:
+        hashTable[index] = new Node(key, value)
+    else:
+        insertAtBeginning(hashTable[index], key, value)
+
+Pseudo Code for Search:
+function search(key):
+    index = hashFunction(key)
+    node = hashTable[index]
+    while node is not None:
+        if node.key == key:
+            return node.value
+        node = node.next
+    return None
+
+Conclusion:
+We have successfully implemented the dictionary ADT using hashing with chaining for collision resolution. The operations—insert, search, and delete—are performed efficiently even in the presence of collisions, demonstrating the power of hashing and linked lists in data structure design.

@@ -1,0 +1,150 @@
+size = 10
+hash_table = {}
+
+def addList(ht, size):
+    for i in range(size):
+        ht[i] = []
+    return ht
+
+def insert_lst(n, key, val, ht):
+    idx = val % n
+    ht[idx].append([val, key])
+    return ht
+
+def delete_key(key, ht):
+    found = False
+    for i in ht:
+        for item in ht[i]:
+            if item[0] == key:
+                ht[i].remove(item)
+                found = True
+                print(f"Key {key} deleted successfully.")
+                return ht
+    if not found:
+        print(f"Key {key} not found.")
+    return ht
+
+def find_key(key, ht):
+    for i in ht:
+        for item in ht[i]:
+            if item[0] == key:
+                print(f"Finding key {key}: {item[1]}")
+                return
+    print(f"Finding key {key}: Key not found")
+
+def display(ht):
+    print("\nDictionary contents:")
+    for i in range(size):
+        print(f"Index {i}:", end=" ")
+        for item in ht[i]:
+            print(f"({item[0]}, {item[1]})", end=" ")
+        print()
+
+# Initialize hash table
+hash_table = addList(hash_table, size)
+
+def main():
+    while True:
+        print("\nDictionary Implementation")
+        print("1. Insert an element")
+        print("2. Delete an element")
+        print("3. Finding a key")
+        print("4. Display hash table")
+        print("5. Exit")
+        choice = int(input("Enter the choice: "))
+
+        if choice == 1:
+            val = int(input("Enter the key (integer): "))
+            key = input("Enter the value (string): ")
+            insert_lst(size, key, val, hash_table)
+
+        elif choice == 2:
+            val = int(input("Enter the key to delete (integer): "))
+            delete_key(val, hash_table)
+
+        elif choice == 3:
+            val = int(input("Enter the key to find (integer): "))
+            find_key(val, hash_table)
+
+        elif choice == 4:
+            display(hash_table)
+
+        elif choice == 5:
+            break
+
+        else:
+            print("Invalid input !!!")
+
+main()
+
+'''
+Dictionary Implementation
+1. Insert an element
+2. Delete an element
+3. Finding a key
+4. Display hash table
+5. Exit
+Enter the choice: 1
+Enter the key (integer): 0
+Enter the value (string): mango
+
+Dictionary Implementation
+1. Insert an element
+2. Delete an element
+3. Finding a key
+4. Display hash table
+5. Exit
+Enter the choice: 1
+Enter the key (integer): 5
+Enter the value (string): apple
+
+Dictionary Implementation
+1. Insert an element
+2. Delete an element
+3. Finding a key
+4. Display hash table
+5. Exit
+Enter the choice: 4
+
+Dictionary contents:
+Index 0: (0, mango) 
+Index 1: 
+Index 2: 
+Index 3: 
+Index 4: 
+Index 5: (5, apple) 
+Index 6: 
+Index 7: 
+Index 8: 
+Index 9: 
+
+Dictionary Implementation
+1. Insert an element
+2. Delete an element
+3. Finding a key
+4. Display hash table
+5. Exit
+Enter the choice: 2
+Enter the key to delete (integer): 0
+Key 0 deleted successfully.
+
+Dictionary Implementation
+1. Insert an element
+2. Delete an element
+3. Finding a key
+4. Display hash table
+5. Exit
+Enter the choice: 3
+Enter the key to find (integer): 5
+Finding key 5: apple
+
+Dictionary Implementation
+1. Insert an element
+2. Delete an element
+3. Finding a key
+4. Display hash table
+5. Exit
+Enter the choice: 5
+
+=== Code Execution Successful ===
+'''
